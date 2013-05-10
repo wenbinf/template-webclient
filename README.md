@@ -1,4 +1,7 @@
-template-webclient
-==================
+# Run it!
 
-My web client project template for interacting with RESTful APIs
+  sudo npm install bower -g
+  bower install   
+  npm install
+  sudo npm install grunt-cli -g
+  grunt server

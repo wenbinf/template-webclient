@@ -1,0 +1,12 @@
+{
+  "name": "data-pipeline-dashboard-web",
+  "version": "0.0.0",
+  "dependencies": {
+    "requirejs": "~2.1.4",
+    "backbone": "~1.0.0",
+    "jquery": "~2.0.0",
+    "underscore": "~1.4.4",
+    "mustache": "~0.7.2"
+  },
+  "devDependencies": {}
+}
