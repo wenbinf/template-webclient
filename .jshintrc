@@ -21,6 +21,10 @@
 "smarttabs": true,
   "globals": { 
      "require": true,
-     "define": true
+     "define": true,
+     "console": true,
+     "$": true,
+     "_": true,
+     "jQuery": true
   }
 }

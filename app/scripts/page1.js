@@ -4,8 +4,7 @@ require.config({
         common: './common',
         jquery: '../components/jquery/jquery',
         underscore: '../components/underscore/underscore',
-        backbone: '../components/backbone/backbone',
-        mustache: '../components/mustache/mustache'
+        backbone: '../components/backbone/backbone'
     },
 
     shim: {
@@ -16,7 +15,7 @@ require.config({
     }
 });
 
-var LoadPage1 = function(config, common, Backbone, Mustache) {
+var LoadPage1 = function(config, common) {
     'use strict';
 
     //
@@ -29,9 +28,9 @@ var LoadPage1 = function(config, common, Backbone, Mustache) {
     }, 3000);
 };
 
-define(['config', 'common', 'backbone', 'mustache'], 
-       function (config, common, Backbone, Mustache) {
+define(['config', 'common', 'backbone'],
+       function (config, common, Backbone) {
     'use strict';
 
-    return function () { LoadPage1(config, common, Backbone, Mustache); };
+    return function () { new LoadPage1(config, common, Backbone); };
 });

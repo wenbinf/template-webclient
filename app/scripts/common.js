@@ -19,6 +19,8 @@ var hideLoadingFunc = function($) {
 };
 
 var setTabActiveFunc = function($, name) {
+    'use strict';
+
     this.currentTab.attr('class', '');
     this.currentTab = $('#'+name);
     this.currentTab.attr('class', 'active');
