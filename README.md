@@ -1,7 +1,9 @@
-# Run it!
+# Initialization
+* Run "sh init.sh"
 
-    sudo npm install bower -g
-    bower install   
-    npm install
-    sudo npm install grunt-cli -g
-    grunt
+# Unit test
+* Run "grunt server" to start a server
+* In browser, "http://localhost:9000/test"
+
+# Integration test
+* Run "grunt test"
