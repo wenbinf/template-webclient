@@ -1,5 +1,5 @@
 require.config({
-
+    baseUrl: './',
     paths: {
         "requirejs": "components/requirejs/require",
         "jquery": "components/jquery/jquery",
@@ -17,6 +17,9 @@ require.config({
     },
 
     shim: {
+        jquery: {
+            exports: '$'
+        },
         backbone: {
             deps: ['underscore', 'jquery'],
             exports: 'Backbone'

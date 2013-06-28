@@ -1,6 +1,14 @@
 require.config({
     paths: {
         config: '../config'
+    },
+    shim: {
+        jquery: {
+            deps: ['config']
+        },
+        underscore: {
+            deps: ['config']
+        }
     }
 });
 

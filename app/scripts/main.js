@@ -1,11 +1,22 @@
 require.config({
     paths: {
         config: '../config'
+    },
+    shim: {
+        jquery: {
+            deps: ['config']
+        },
+        backbone: {
+            deps: ['jquery']
+        },
+        underscore: {
+            deps: ['config']
+        }
     }
 });
 
-require(['jquery', 'backbone', 'page1', 'page2', 'common'],
-        function ($, Backbone, page1, page2) {
+require(['page1', 'page2', 'jquery', 'underscore', 'backbone', 'common'],
+        function (page1, page2) {
     'use strict';
 
     var AppRouter = Backbone.Router.extend({

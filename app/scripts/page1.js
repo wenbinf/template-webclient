@@ -1,11 +1,21 @@
 require.config({
     paths: {
         config: '../config'
+    },
+    shim: {
+        common: {
+            deps: ['config']
+        },
+        text: {
+            deps: ['config']
+        },
+        underscore: {
+            deps: ['config']
+        }
     }
 });
 
-
-define(['common', 'text!page1Tmpl', 'underscore'], function (common, page1Tmpl) {
+define(['text!page1Tmpl', 'underscore', 'common'], function (page1Tmpl) {
     'use strict';
 
     return function () {
