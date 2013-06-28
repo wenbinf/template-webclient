@@ -123,44 +123,13 @@ module.exports = function (grunt) {
             js: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-//                    mainConfigFile: 'app/config.js',
-    paths: {
-        "requirejs": "components/requirejs/require",
-        "jquery": "components/jquery/jquery",
-        "underscore": "components/underscore/underscore",
-        "backbone": "components/backbone/backbone",
-        "text": "components/text/text",
+                    mainConfigFile: 'app/config.js',
 
-        "page1Tmpl": "scripts/templates/page1.html",
-        "page2Tmpl": "scripts/templates/page2.html",
-
-        "main": "scripts/main",
-        "common": "scripts/common",
-        "page1": "scripts/page1",
-        "page2": "scripts/page2"
-    },
-
-    shim: {
-        backbone: {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        },
-        main: {
-            deps: ['page1', 'page2', 'backbone']
-        },
-        page1: {
-            deps: ['common']
-        },
-        page2: {
-            deps: ['common']
-        }
-    },
-
-                    baseUrl: "app",
+                    baseUrl: 'app',
                     name: 'main',
-                    out: "dist/scripts/main.js",
-                    
-                    include: "requirejs",
+                    out: 'dist/scripts/main.js',
+
+                    include: 'requirejs',
                     inlineText: true,
                     optimize: 'uglify2'
                 }
@@ -170,7 +139,7 @@ module.exports = function (grunt) {
                 options: {
                     cssIn: 'app/styles/main.css',
                     out: 'dist/styles/main.css',
-                    optimizeCss: "standard.keepLines",
+                    optimizeCss: 'standard',
                     cssImportIgnore: null
                 }
             }
@@ -197,9 +166,9 @@ module.exports = function (grunt) {
             scriptPath: {
                 src: ['<%= yeoman.app%>/index.html'],
                 dest: '<%= yeoman.dist%>/index.html',
-                replacements: [{ 
+                replacements: [{
                     from: 'components/requirejs/require.js',
-                    to: 'scripts/main.js' 
+                    to: 'scripts/main.js'
                 }]
             }
         },
@@ -217,12 +186,12 @@ module.exports = function (grunt) {
     grunt.renameTask('regarde', 'watch');
 
     grunt.registerTask('server', [
-            'clean:server',
-            'livereload-start',
-            'connect:livereload',
-            'open',
-            'watch'
-        ]);
+        'clean:server',
+        'livereload-start',
+        'connect:livereload',
+        'open',
+        'watch'
+    ]);
 
     grunt.registerTask('dist', [
         'clean:dist',

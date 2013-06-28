@@ -1,23 +1,11 @@
 require.config({
     paths: {
-        jquery: '../components/jquery/jquery',
-        underscore: '../components/underscore/underscore',
-        backbone: '../components/backbone/backbone',
-        common: './common',
-        page1: './page1',
-        page2: './page2'
-    },
-
-    shim: {
-        backbone: {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        }
+        config: '../config'
     }
 });
 
-require(['common', 'jquery', 'backbone', 'page1', 'page2'],
-        function (common, $, Backbone, page1, page2) {
+require(['jquery', 'backbone', 'page1', 'page2', 'common'],
+        function ($, Backbone, page1, page2) {
     'use strict';
 
     var AppRouter = Backbone.Router.extend({
@@ -32,14 +20,14 @@ require(['common', 'jquery', 'backbone', 'page1', 'page2'],
 
     appRouter.on('route:page1', function() {
         console.log('page1');
-        common.setTabActive($, 'page1');
+        _.setTabActive('page1');
         // From page1.js
         page1();
     });
 
     appRouter.on('route:page2', function() {
         console.log('page2');
-        common.setTabActive($, 'page2');
+        _.setTabActive('page2');
         // From page2.js
         page2();
     });
@@ -47,7 +35,7 @@ require(['common', 'jquery', 'backbone', 'page1', 'page2'],
     appRouter.on('route:defaultRoute', function(actions) {
         console.log(actions);
         console.log('page1');
-        common.setTabActive($, 'page1');
+        _.setTabActive('page1');
         // From page1.js
         page1();
     });
