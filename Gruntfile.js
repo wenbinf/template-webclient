@@ -14,12 +14,13 @@ var mountFolder = function (connect, dir) {
 module.exports = function (grunt) {
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    grunt.option('force', true);
 
     // configurable paths
     var yeomanConfig = {
         app: 'app',
         test: 'test',
-        dist: '/var/www/html/dashboard-web'
+        dist: 'dist'
     };
 
     grunt.initConfig({
@@ -47,7 +48,7 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['livereload', 'jshint'],
                 options: {
-                    jshintrc: '.jshintrc'
+                    jshintrc: '.jshintrc',
                 },
             },
         },
@@ -111,56 +112,70 @@ module.exports = function (grunt) {
         mochaTest: {
             all: {
                 options: {
-//                    reporter: 'Nyan',
+                    //                    reporter: 'Nyan',
                     reporter: 'Spec',
                 },
                 src: [grunt.option('test-file') || 'test/*test*.js']
             }
         },
-        coffee: {
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= yeoman.app %>/scripts',
-                    src: '{,*/}*.coffee',
-                    dest: '.tmp/scripts',
-                    ext: '.js'
-                }]
-            },
-            test: {
-                files: [{
-                    expand: true,
-                    cwd: 'test/spec',
-                    src: '{,*/}*.coffee',
-                    dest: '.tmp/spec',
-                    ext: '.js'
-                }]
-            }
-        },
-        // not used since Uglify task does concat,
-        // but still available if needed
-        /*concat: {
-            dist: {}
-        },*/
+
         requirejs: {
-            dist: {
+            js: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-                    // `name` and `out` is set by grunt-usemin
-                    baseUrl: 'app/scripts',
-                    optimize: 'none',
-                    // TODO: Figure out how to make sourcemaps work with grunt-usemin
-                    // https://github.com/yeoman/grunt-usemin/issues/30
-                    //generateSourceMaps: true,
-                    // required to support SourceMaps
-                    // http://requirejs.org/docs/errors.html#sourcemapcomments
-                    preserveLicenseComments: false,
-                    useStrict: true,
-                    wrap: true,
-                    //uglify2: {} // https://github.com/mishoo/UglifyJS2
+//                    mainConfigFile: 'app/config.js',
+    paths: {
+        "requirejs": "components/requirejs/require",
+        "jquery": "components/jquery/jquery",
+        "underscore": "components/underscore/underscore",
+        "backbone": "components/backbone/backbone",
+        "text": "components/text/text",
+
+        "page1Tmpl": "scripts/templates/page1.html",
+        "page2Tmpl": "scripts/templates/page2.html",
+
+        "main": "scripts/main",
+        "common": "scripts/common",
+        "page1": "scripts/page1",
+        "page2": "scripts/page2"
+    },
+
+    shim: {
+        backbone: {
+            deps: ['underscore', 'jquery'],
+            exports: 'Backbone'
+        },
+        main: {
+            deps: ['page1', 'page2', 'backbone']
+        },
+        page1: {
+            deps: ['common']
+        },
+        page2: {
+            deps: ['common']
+        }
+    },
+
+                    baseUrl: "app",
+                    name: 'main',
+                    out: "dist/scripts/main.js",
+                    
+                    include: "requirejs",
+                    inlineText: true,
+                    optimize: 'uglify2'
+                }
+            },
+
+            css: {
+                options: {
+                    cssIn: 'app/styles/main.css',
+                    out: 'dist/styles/main.css',
+                    optimizeCss: "standard.keepLines",
+                    cssImportIgnore: null
                 }
             }
         },
+
         // Put files not handled in other tasks here
         copy: {
             dist: {
@@ -172,16 +187,23 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,txt,html,js}',
                         '.htaccess',
-                        'images/{,*/}*.{webp,gif}',
-                        'styles/{,*/}*',
-                        'scripts/{,*/}*',
-                        'components/{,*/}*'
+                        'images/{,*/}*.*'
                     ]
                 }]
             }
         },
-        concurrent: {
+
+        replace: {
+            scriptPath: {
+                src: ['<%= yeoman.app%>/index.html'],
+                dest: '<%= yeoman.dist%>/index.html',
+                replacements: [{ 
+                    from: 'components/requirejs/require.js',
+                    to: 'scripts/main.js' 
+                }]
+            }
         },
+
         bower: {
             options: {
                 exclude: ['modernizr']
@@ -194,35 +216,26 @@ module.exports = function (grunt) {
 
     grunt.renameTask('regarde', 'watch');
 
-    grunt.registerTask('server', function (target) {
-        if (target === 'dist') {
-            return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
-        }
-
-        grunt.option('force', true);
-
-        grunt.task.run([
+    grunt.registerTask('server', [
             'clean:server',
             'livereload-start',
             'connect:livereload',
             'open',
             'watch'
         ]);
-    });
+
+    grunt.registerTask('dist', [
+        'clean:dist',
+        'requirejs:js',
+        'requirejs:css',
+        'copy',
+        'replace:scriptPath'
+    ]);
 
     grunt.registerTask('test', [
         'clean:server',
         'connect:test',
         'mochaTest'
-    ]);
-
-    grunt.registerTask('build', [
-        'clean:dist',
-        'concurrent:dist',
-        'requirejs',
-        'concat',
-        'uglify',
-        'copy'
     ]);
 
     grunt.registerTask('default', function() {

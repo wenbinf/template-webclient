@@ -1,4 +1,5 @@
-/* TODO */
+@import url("../components/bootstrap/docs/assets/css/bootstrap-responsive.css");
+@import url("../components/bootstrap/docs/assets/css/bootstrap.css");
 
 /* Main marketing message and sign up button */
 .jumbotron {

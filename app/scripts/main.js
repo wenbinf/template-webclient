@@ -46,7 +46,12 @@ require(['common', 'jquery', 'backbone', 'page1', 'page2'],
 
     appRouter.on('route:defaultRoute', function(actions) {
         console.log(actions);
+        console.log('page1');
+        common.setTabActive($, 'page1');
+        // From page1.js
+        page1();
     });
 
     Backbone.history.start();
+
 });

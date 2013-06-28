@@ -1,21 +1,14 @@
 require.config({
     paths: {
-        config: '../config',
-        common: './common',
-        jquery: '../components/jquery/jquery',
+        common: '../common',
+        text: '../components/text/text',
         underscore: '../components/underscore/underscore',
-        backbone: '../components/backbone/backbone'
-    },
 
-    shim: {
-        backbone: {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        }
+        page2Tmpl: 'templates/page1.html'
     }
 });
 
-var LoadPage2 = function(config, common) {
+var LoadPage2 = function(common, page2Tmpl) {
     'use strict';
 
     //
@@ -23,14 +16,14 @@ var LoadPage2 = function(config, common) {
     //
     common.showLoading($);
     setTimeout(function() {
-        $('#page').html('Hello, page2');
+        $('#page').html(_.template(page2Tmpl));
         common.hideLoading($);
     }, 3000);
 };
 
-define(['config', 'common', 'backbone'],
-       function (config, common, Backbone) {
+define(['common', 'text!page2Tmpl'],
+       function (common, page2Tmpl) {
     'use strict';
 
-    return function () { new LoadPage2(config, common, Backbone); };
+    return function () { new LoadPage2(common, page2Tmpl); };
 });

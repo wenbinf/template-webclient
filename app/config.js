@@ -1,7 +1,8 @@
+
 /*global define */
 define([], function () {
     'use strict';
-    
+
     var config = {
         apiBaseUrl: "http://localhost/api",
         
